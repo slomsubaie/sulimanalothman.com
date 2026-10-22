@@ -57,3 +57,7 @@ The site deploys to GitHub Pages only when every check passes.
 7. Check the link preview at https://www.linkedin.com/post-inspector/
 
 `linkedincv.pdf` (the original export) is git-ignored; the published copy is in `assets/`.
+
+## License
+
+Copyright © 2026 Suliman Alothman. All rights reserved. No permission is granted to copy, modify or redistribute this code or content. See `LICENSE`.
