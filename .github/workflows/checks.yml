@@ -1,0 +1,67 @@
+name: Quality checks & deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Assemble site
+        run: |
+          mkdir _site
+          cp -r index.html css js data assets CNAME robots.txt sitemap.xml _site/
+
+      - name: Validate HTML
+        run: npx --yes html-validate@8.24.1 _site/index.html
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --no-progress --exclude linkedin.com --exclude sulimanalothman.com '_site/**/*.html'
+          fail: true
+
+      - name: Accessibility audit (WCAG 2 AA)
+        run: |
+          npx --yes http-server@14.1.1 _site -p 8080 -s &
+          sleep 2
+          npx --yes pa11y-ci@4.0.0 --config .pa11yci.json
+
+      - name: Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          configPath: ./lighthouserc.json
+          uploadArtifacts: true
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: checks
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

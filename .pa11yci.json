@@ -1,0 +1,8 @@
+{
+  "defaults": {
+    "standard": "WCAG2AA",
+    "runners": ["axe", "htmlcs"],
+    "chromeLaunchConfig": { "args": ["--no-sandbox"] }
+  },
+  "urls": ["http://localhost:8080/"]
+}
