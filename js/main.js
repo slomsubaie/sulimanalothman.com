@@ -60,8 +60,12 @@
     var r = C.research;
     var wrap = document.getElementById("research-card");
     var email = "suliman.a.othman@gmail.com";
-    var mailto = "mailto:" + email + "?subject=" + encodeURIComponent(r.requestSubject) +
-      "&body=" + encodeURIComponent("Hi Suliman,\n\nI'd like to read your MBA research paper.\n\nName:\nOrganization:\nPurpose:\n");
+    var subject = encodeURIComponent(r.requestSubject);
+    var body = encodeURIComponent("Hi Suliman,\n\nI'd like to read your MBA research paper.\n\nName:\nOrganization:\nPurpose:\n");
+    var mailto = "mailto:" + email + "?subject=" + subject + "&body=" + body;
+    // mailto: does nothing on devices without a configured mail app, so offer webmail and copy as fallbacks.
+    var gmail = "https://mail.google.com/mail/?view=cm&fs=1&to=" + email + "&su=" + subject + "&body=" + body;
+    var outlook = "https://outlook.live.com/mail/0/deeplink/compose?to=" + email + "&subject=" + subject + "&body=" + body;
 
     function block(heading, body) {
       return el("div", { class: "research-block" }, [el("h4", {}, heading), body]);
@@ -83,10 +87,35 @@
       block("Recommendations", list(r.recommendations))
     ]));
     wrap.appendChild(el("p", { class: "research-takeaway" }, r.takeaway));
+    var requestBtn = el("a", { class: "btn btn-solid", href: mailto }, "Request the full paper");
+    var copyBtn = el("button", { type: "button", class: "btn btn-ghost" }, "Copy email address");
+    var status = el("span", { class: "copy-status", role: "status" });
+    var fallback = el("div", { class: "request-fallback", id: "request-fallback" }, [
+      el("p", {}, "No email app opened? Send the request another way:"),
+      el("div", { class: "request-options" }, [
+        el("a", { class: "btn btn-ghost", href: gmail, target: "_blank", rel: "noopener" }, "Open in Gmail"),
+        el("a", { class: "btn btn-ghost", href: outlook, target: "_blank", rel: "noopener" }, "Open in Outlook"),
+        copyBtn,
+        status
+      ])
+    ]);
+    fallback.hidden = true;
+
+    requestBtn.addEventListener("click", function () { fallback.hidden = false; });
+    copyBtn.addEventListener("click", function () {
+      function done() { status.textContent = "Copied ✓"; }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(done, function () { status.textContent = email; });
+      } else {
+        status.textContent = email;
+      }
+    });
+
     wrap.appendChild(el("div", { class: "research-request" }, [
-      el("a", { class: "btn btn-solid", href: mailto }, "Request the full paper"),
+      requestBtn,
       el("p", { class: "muted" }, "The full 42-page paper is shared on request.")
     ]));
+    wrap.appendChild(fallback);
   }
 
   function renderSkills() {

@@ -248,6 +248,13 @@ a { color: var(--accent); text-underline-offset: 3px; }
 .research-request .muted { font-size: 0.9rem; }
 .btn-solid { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .btn-solid:hover { background: var(--accent); filter: brightness(1.1); }
+.btn-ghost { background: var(--surface); border-color: var(--line); color: var(--ink); font: inherit; font-weight: 600; cursor: pointer; }
+.btn-ghost:hover { background: var(--surface-alt); border-color: var(--muted); }
+.request-fallback { margin-top: 16px; padding: 16px; border-radius: 10px; background: var(--surface-alt); border: 1px solid var(--line); }
+.request-fallback[hidden] { display: none; }
+.request-fallback p { color: var(--ink-2); font-size: 0.92rem; }
+.request-options { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }
+.copy-status { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
 .edu-link { display: inline-block; margin-top: 2px; font-size: 0.9rem; font-weight: 600; }
 
 /* Skills */
@@ -289,7 +296,7 @@ a { color: var(--accent); text-underline-offset: 3px; }
   }
   @page { margin: 14mm; }
   body { font-size: 10.5pt; line-height: 1.45; }
-  .site-header, .skip-link, .filters, .cta-row, .portrait, .site-footer, .case summary::after, .case-link, .research-request, .edu-link { display: none !important; }
+  .site-header, .skip-link, .filters, .cta-row, .portrait, .site-footer, .case summary::after, .case-link, .research-request, .request-fallback, .edu-link { display: none !important; }
   .hero, .section { padding: 10pt 0; }
   .lede { color: #222; }
   .stats { grid-template-columns: repeat(3, 1fr); gap: 6pt; }
