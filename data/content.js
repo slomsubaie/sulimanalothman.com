@@ -30,8 +30,17 @@ window.CONTENT = {
         "Manage an annual budget of SAR 480,000 and closed the fiscal year with a surplus of more than SAR 50,000.",
         "Negotiated with property-management and operations & maintenance companies, saving each of the 78 units SAR 1,000–1,500.",
         "Hold contractors accountable to their agreed duties, run owners’ meetings and votes, and make the final call on decisions for the complex.",
-        "Built the association’s own document-archiving system covering the founding certificate, vendor contracts and service proposals."
-      ]
+        "Designed and built Jamaiaty (جمعيتي), an Arabic-first, multi-tenant platform for homeowners associations (web, iOS and Android), covering the document archive, vendor price comparison, budgets, role-based access and approval-gated support."
+      ],
+      // Demo videos are Unlisted on YouTube; `id` is the part after youtu.be/ or watch?v=.
+      demo: {
+        name: "Jamaiaty",
+        nameAr: "جمعيتي",
+        videos: {
+          en: { id: "gnBrvXj6zN8", label: "English", duration: "3:47" },
+          ar: { id: "O5kD5y37qWI", label: "العربية", duration: "5:10" }
+        }
+      }
     },
     {
       org: "SAMI Advanced Electronics",

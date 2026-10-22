@@ -12,6 +12,8 @@ Personal resume site for Suliman Alothman, written in plain HTML, CSS and JavaSc
 | Downloadable CV | replace `assets/Suliman-Alothman-CV.pdf` (keep the name) |
 | Photo | save as `assets/headshot.jpg` and follow the comment in `index.html` (search for `portrait`) |
 
+**Demo videos (Jamaiaty):** the pop-up player on the HOA entry plays two Unlisted YouTube videos. To replace one, upload the new video to YouTube and put its ID (the part after `youtu.be/` or `watch?v=`) in `demo.videos.en.id` or `demo.videos.ar.id` in `data/content.js`, then update `duration`. Arabic-language browsers start on the Arabic video.
+
 To add a job, copy one `{ ... }` block in `experience` and edit it. The newest job goes first. `tracks` takes any of `"build"`, `"assure"`, `"lead"`; these control the colour tags and the filter buttons.
 
 After an edit, also update `<lastmod>` in `sitemap.xml`.

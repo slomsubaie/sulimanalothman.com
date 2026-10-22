@@ -23,15 +23,87 @@
       var org = el("p", { class: "job-org" }, job.org);
       if (job.orgNote) org.appendChild(el("span", { class: "job-org-note" }, " · " + job.orgNote));
 
-      list.appendChild(el("li", { class: "job", "data-tracks": job.tracks.join(" ") }, [
+      var item = el("li", { class: "job", "data-tracks": job.tracks.join(" ") }, [
         el("div", { class: "job-head" }, [
           el("div", {}, [el("h3", { class: "job-role" }, job.role), org]),
           el("p", { class: "job-dates" }, job.dates + " · " + job.location)
         ]),
         tags,
         el("ul", { class: "job-points" }, job.highlights.map(function (h) { return el("li", {}, h); }))
-      ]));
+      ]);
+      if (job.demo) item.appendChild(demoButton(job.demo));
+      list.appendChild(item);
     });
+  }
+
+  function demoButton(demo) {
+    var langs = el("span", { class: "demo-langs" }, [
+      document.createTextNode(demo.videos.en.label + " · "),
+      el("span", { lang: "ar", dir: "rtl" }, demo.videos.ar.label)
+    ]);
+    return el("div", { class: "demo-cta" }, [
+      el("button", { type: "button", class: "btn btn-solid demo-open", "aria-haspopup": "dialog" }, [
+        el("span", { class: "demo-play", "aria-hidden": "true" }),
+        "Watch the " + demo.name + " demo"
+      ]),
+      langs
+    ]);
+  }
+
+  // Pop-up player for the demo videos. Nothing from YouTube loads until it opens.
+  function setupDemoDialog() {
+    var job = C.experience.filter(function (j) { return j.demo; })[0];
+    var dialog = document.getElementById("demo-dialog");
+    var opener = document.querySelector(".demo-open");
+    if (!job || !dialog || !opener || typeof dialog.showModal !== "function") return;
+    var demo = job.demo;
+    var prefersArabic = (navigator.languages || [navigator.language || ""]).some(function (l) { return /^ar\b/i.test(l); });
+    var lang = prefersArabic ? "ar" : "en";
+
+    var frame = el("div", { class: "demo-frame" });
+    var ytLink = el("a", { class: "demo-yt", href: "https://www.youtube.com/watch?v=" + demo.videos[lang].id, target: "_blank", rel: "noopener" }, "Open on YouTube ↗");
+    var switches = {};
+    var switcher = el("div", { class: "demo-switch", role: "group", "aria-label": "Video language" }, ["en", "ar"].map(function (k) {
+      var v = demo.videos[k];
+      var b = el("button", { type: "button", "aria-pressed": "false", "data-lang": k }, [
+        el("span", k === "ar" ? { lang: "ar", dir: "rtl" } : {}, v.label),
+        el("span", { class: "demo-dur" }, v.duration)
+      ]);
+      b.addEventListener("click", function () { show(k); });
+      switches[k] = b;
+      return b;
+    }));
+    var close = el("button", { type: "button", class: "demo-close", "aria-label": "Close video" }, "×");
+
+    dialog.appendChild(el("div", { class: "demo-head" }, [
+      el("h2", { id: "demo-title" }, [demo.name + " · ", el("span", { lang: "ar", dir: "rtl" }, demo.nameAr), " — product demo"]),
+      switcher,
+      close
+    ]));
+    dialog.appendChild(frame);
+    dialog.appendChild(el("div", { class: "demo-foot" }, [ytLink]));
+
+    function show(k) {
+      lang = k;
+      var id = demo.videos[k].id;
+      Object.keys(switches).forEach(function (s) { switches[s].setAttribute("aria-pressed", String(s === k)); });
+      ytLink.href = "https://www.youtube.com/watch?v=" + id;
+      frame.innerHTML = "";
+      frame.appendChild(el("iframe", {
+        src: "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0&playsinline=1",
+        title: demo.name + " demo (" + demo.videos[k].label + ")",
+        allow: "autoplay; encrypted-media; picture-in-picture; fullscreen",
+        allowfullscreen: "",
+        referrerpolicy: "strict-origin-when-cross-origin"
+      }));
+    }
+
+    opener.addEventListener("click", function () { dialog.showModal(); show(lang); });
+    close.addEventListener("click", function () { dialog.close(); });
+    // Clicking the backdrop (outside the panel) closes too.
+    dialog.addEventListener("click", function (e) { if (e.target === dialog) dialog.close(); });
+    // Removing the iframe stops playback and sound.
+    dialog.addEventListener("close", function () { frame.innerHTML = ""; opener.focus(); });
   }
 
   function renderCases() {
@@ -208,6 +280,7 @@
   renderResearch();
   renderSkills();
   setupFilters();
+  setupDemoDialog();
   setupTheme();
   setupNavHighlight();
   setupPrint();
