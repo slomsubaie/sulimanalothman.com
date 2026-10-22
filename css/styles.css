@@ -326,6 +326,7 @@ a { color: var(--accent); text-underline-offset: 3px; }
 .site-footer p { max-width: 60em; }
 .site-footer strong { color: var(--ink-2); }
 .copyright { margin-top: 12px; }
+.analytics-note { font-size: 0.82rem; }
 
 /* ---------- Print: a clean paper resume ---------- */
 @media print {
@@ -335,7 +336,7 @@ a { color: var(--accent); text-underline-offset: 3px; }
   }
   @page { margin: 14mm; }
   body { font-size: 10.5pt; line-height: 1.45; }
-  .site-header, .skip-link, .filters, .cta-row, .portrait, .site-footer, .case summary::after, .case-link, .research-request, .request-fallback, .edu-link, .demo-cta, .demo-dialog { display: none !important; }
+  .site-header, .skip-link, .filters, .cta-row, .portrait, .site-footer, .case summary::after, .case-link, .analytics-note, .research-request, .request-fallback, .edu-link, .demo-cta, .demo-dialog { display: none !important; }
   .hero, .section { padding: 10pt 0; }
   .lede { color: #222; }
   .stats { grid-template-columns: repeat(3, 1fr); gap: 6pt; }

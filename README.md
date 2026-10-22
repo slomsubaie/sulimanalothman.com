@@ -58,6 +58,16 @@ The site deploys to GitHub Pages only when every check passes.
 
 `linkedincv.pdf` (the original export) is git-ignored; the published copy is in `assets/`.
 
+## Analytics (private)
+
+Visits are counted with [GoatCounter](https://www.goatcounter.com): no cookies, no personal data. The dashboard is only visible to you: https://sulimanalothman.goatcounter.com
+
+- **Exclude your own visits:** open `https://sulimanalothman.com/#toggle-goatcounter` once on each of your devices and browsers.
+- **Where visitors stop:** each section sends an event the first time a visitor scrolls to it: `section-impact`, `section-about`, `section-experience`, `section-case-studies`, `section-research`, `section-skills`, `section-contact`. Divide an event's count by total visits. For example, 100 visits and `section-research` 30 means 70% leave before the Research section.
+- **Key clicks:** `cv-download-hero`, `cv-download-contact`, `linkedin-hero`, `linkedin-contact`, `github`, `email-contact`, `demo-open`, `demo-switch-en`, `demo-switch-ar`, `demo-youtube`, `paper-request`, `paper-gmail`, `paper-outlook`, `paper-copy`, `case-open-1` to `case-open-5`, `filter-build`, `filter-assure`, `filter-lead`.
+- Each event is counted at most once per visit. To track another link or button, give it a `data-goal="name"` attribute.
+- **Also worth a look:** Referrers (did LinkedIn send people?), Locations, and Sizes (phone vs desktop).
+
 ## License
 
 Copyright © 2026 Suliman Alothman. All rights reserved. No permission is granted to copy, modify or redistribute this code or content. See `LICENSE`.

@@ -84,9 +84,9 @@
           <h1>Suliman Alothman</h1>
           <p class="lede">I build software, I decide what’s fit to ship, and I lead people to results. That’s 8+ years across development and quality engineering for national-scale systems, plus elected leadership of a 78-unit homeowners association.</p>
           <div class="cta-row">
-            <a class="btn btn-primary" href="assets/Suliman-Alothman-CV.pdf" download>Download CV</a>
+            <a class="btn btn-primary" href="assets/Suliman-Alothman-CV.pdf" download data-goal="cv-download-hero">Download CV</a>
             <a class="btn" href="#contact">Contact</a>
-            <a class="btn" href="https://www.linkedin.com/in/suliman-a-a44810110" rel="noopener">LinkedIn</a>
+            <a class="btn" href="https://www.linkedin.com/in/suliman-a-a44810110" rel="noopener" data-goal="linkedin-hero">LinkedIn</a>
           </div>
           <p class="hero-meta">Saudi Arabia</p>
         </div>
@@ -138,9 +138,9 @@
           <h2 id="experience-h">Experience</h2>
           <div class="filters" role="group" aria-label="Filter experience by pillar">
             <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
-            <button type="button" class="chip" data-filter="build" aria-pressed="false">Build</button>
-            <button type="button" class="chip" data-filter="assure" aria-pressed="false">Assure</button>
-            <button type="button" class="chip" data-filter="lead" aria-pressed="false">Lead</button>
+            <button type="button" class="chip" data-filter="build" data-goal="filter-build" aria-pressed="false">Build</button>
+            <button type="button" class="chip" data-filter="assure" data-goal="filter-assure" aria-pressed="false">Assure</button>
+            <button type="button" class="chip" data-filter="lead" data-goal="filter-lead" aria-pressed="false">Lead</button>
           </div>
         </div>
         <ol class="timeline" id="experience-list"></ol>
@@ -190,10 +190,10 @@
         <h2 id="contact-h">Let’s talk</h2>
         <p class="section-intro">Open to QA leadership, delivery and management roles.</p>
         <ul class="contact-links">
-          <li><a href="mailto:suliman.a.othman@gmail.com">suliman.a.othman@gmail.com</a></li>
-          <li><a href="https://www.linkedin.com/in/suliman-a-a44810110" rel="noopener">LinkedIn</a></li>
-          <li><a href="https://github.com/slomsubaie" rel="noopener">GitHub</a></li>
-          <li><a href="assets/Suliman-Alothman-CV.pdf" download>Download CV (PDF)</a></li>
+          <li><a href="mailto:suliman.a.othman@gmail.com" data-goal="email-contact">suliman.a.othman@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/suliman-a-a44810110" rel="noopener" data-goal="linkedin-contact">LinkedIn</a></li>
+          <li><a href="https://github.com/slomsubaie" rel="noopener" data-goal="github">GitHub</a></li>
+          <li><a href="assets/Suliman-Alothman-CV.pdf" download data-goal="cv-download-contact">Download CV (PDF)</a></li>
         </ul>
       </div>
     </section>
@@ -204,10 +204,12 @@
 
   <footer class="site-footer">
     <div class="wrap">
+      <p class="analytics-note">Visits are counted anonymously with GoatCounter: no cookies, no personal data.</p>
       <p class="copyright">© <span id="year">2026</span> Suliman Alothman</p>
     </div>
   </footer>
 
+  <script data-goatcounter="https://sulimanalothman.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
   <script src="data/content.js"></script>
   <script src="js/main.js"></script>
 </body>

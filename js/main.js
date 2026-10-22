@@ -42,7 +42,7 @@
       el("span", { lang: "ar", dir: "rtl" }, demo.videos.ar.label)
     ]);
     return el("div", { class: "demo-cta" }, [
-      el("button", { type: "button", class: "btn btn-solid demo-open", "aria-haspopup": "dialog" }, [
+      el("button", { type: "button", class: "btn btn-solid demo-open", "aria-haspopup": "dialog", "data-goal": "demo-open" }, [
         el("span", { class: "demo-play", "aria-hidden": "true" }),
         "Watch the " + demo.name + " demo"
       ]),
@@ -61,11 +61,11 @@
     var lang = prefersArabic ? "ar" : "en";
 
     var frame = el("div", { class: "demo-frame" });
-    var ytLink = el("a", { class: "demo-yt", href: "https://www.youtube.com/watch?v=" + demo.videos[lang].id, target: "_blank", rel: "noopener" }, "Open on YouTube ↗");
+    var ytLink = el("a", { class: "demo-yt", "data-goal": "demo-youtube", href: "https://www.youtube.com/watch?v=" + demo.videos[lang].id, target: "_blank", rel: "noopener" }, "Open on YouTube ↗");
     var switches = {};
     var switcher = el("div", { class: "demo-switch", role: "group", "aria-label": "Video language" }, ["en", "ar"].map(function (k) {
       var v = demo.videos[k];
-      var b = el("button", { type: "button", "aria-pressed": "false", "data-lang": k }, [
+      var b = el("button", { type: "button", "aria-pressed": "false", "data-lang": k, "data-goal": "demo-switch-" + k, "data-goal-title": "Demo language: " + v.label }, [
         el("span", k === "ar" ? { lang: "ar", dir: "rtl" } : {}, v.label),
         el("span", { class: "demo-dur" }, v.duration)
       ]);
@@ -117,7 +117,7 @@
       var inner = el("div", { class: "case-body" }, [body]);
       if (cs.link) inner.appendChild(el("a", { class: "case-link", href: cs.link.href, rel: "noopener" }, cs.link.label + " →"));
 
-      wrap.appendChild(el("details", { class: "case" }, [
+      wrap.appendChild(el("details", { class: "case", "data-case": String(C.caseStudies.indexOf(cs) + 1) }, [
         el("summary", {}, [
           el("span", { class: "case-metric" }, cs.metric),
           el("span", { class: "case-title" }, cs.title),
@@ -159,14 +159,14 @@
       block("Recommendations", list(r.recommendations))
     ]));
     wrap.appendChild(el("p", { class: "research-takeaway" }, r.takeaway));
-    var requestBtn = el("a", { class: "btn btn-solid", href: mailto }, "Request the full paper");
-    var copyBtn = el("button", { type: "button", class: "btn btn-ghost" }, "Copy email address");
+    var requestBtn = el("a", { class: "btn btn-solid", href: mailto, "data-goal": "paper-request" }, "Request the full paper");
+    var copyBtn = el("button", { type: "button", class: "btn btn-ghost", "data-goal": "paper-copy" }, "Copy email address");
     var status = el("span", { class: "copy-status", role: "status" });
     var fallback = el("div", { class: "request-fallback", id: "request-fallback" }, [
       el("p", {}, "No email app opened? Send the request another way:"),
       el("div", { class: "request-options" }, [
-        el("a", { class: "btn btn-ghost", href: gmail, target: "_blank", rel: "noopener" }, "Open in Gmail"),
-        el("a", { class: "btn btn-ghost", href: outlook, target: "_blank", rel: "noopener" }, "Open in Outlook"),
+        el("a", { class: "btn btn-ghost", href: gmail, "data-goal": "paper-gmail", target: "_blank", rel: "noopener" }, "Open in Gmail"),
+        el("a", { class: "btn btn-ghost", href: outlook, "data-goal": "paper-outlook", target: "_blank", rel: "noopener" }, "Open in Outlook"),
         copyBtn,
         status
       ])
@@ -249,6 +249,43 @@
     sync();
   }
 
+  // Private analytics (GoatCounter): sections reached and key clicks, counted once per page load.
+  // goal() is a no-op when the script is blocked or still loading.
+  var printing = false;
+  var sent = {};
+  function goal(name, title) {
+    if (sent[name]) return;
+    var gc = window.goatcounter;
+    if (!gc || typeof gc.count !== "function") return;
+    sent[name] = true;
+    try { gc.count({ path: name, title: title || name, event: true }); } catch (e) { sent[name] = false; }
+  }
+
+  function setupGoals() {
+    document.addEventListener("click", function (e) {
+      var t = e.target.closest && e.target.closest("[data-goal]");
+      if (t) goal(t.getAttribute("data-goal"), t.getAttribute("data-goal-title") || "Click: " + t.textContent.trim().replace(/\s+/g, " "));
+    });
+
+    document.querySelectorAll("details.case").forEach(function (d) {
+      d.addEventListener("toggle", function () {
+        if (d.open && !printing) goal("case-open-" + d.getAttribute("data-case"), "Case study: " + d.querySelector(".case-title").textContent);
+      });
+    });
+
+    if (!("IntersectionObserver" in window)) return;
+    // A section counts as reached once its top is in the upper 60% of the screen.
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var h = e.target.querySelector("h2");
+        goal("section-" + e.target.id, "Reached: " + (h ? h.textContent.trim() : e.target.id));
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: "0px 0px -40% 0px" });
+    document.querySelectorAll("main section[id]:not(#top)").forEach(function (s) { io.observe(s); });
+  }
+
   function setupNavHighlight() {
     if (!("IntersectionObserver" in window)) return;
     var links = {};
@@ -267,9 +304,11 @@
   function setupPrint() {
     var opened = [];
     window.addEventListener("beforeprint", function () {
+      printing = true;
       document.querySelectorAll("details.case:not([open])").forEach(function (d) { d.open = true; opened.push(d); });
     });
     window.addEventListener("afterprint", function () {
+      setTimeout(function () { printing = false; }, 0);
       opened.forEach(function (d) { d.open = false; });
       opened = [];
     });
@@ -281,6 +320,7 @@
   renderSkills();
   setupFilters();
   setupDemoDialog();
+  setupGoals();
   setupTheme();
   setupNavHighlight();
   setupPrint();
