@@ -126,6 +126,33 @@ window.CONTENT = {
     }
   ],
 
+  research: {
+    eyebrow: "MBA research · Saudi Electronic University · 2024",
+    title: "The Effectiveness of Orders-Delivery Companies’ Marketing Activities Using Digital Means to Deaf and Hearing-Impaired Customers in Saudi Arabia",
+    supervisor: "Supervised by Dr. Ganesh Dash",
+    motivation: "Inspired by conversations with deaf and hearing-impaired members of my family.",
+    stats: [
+      { value: "202", label: "deaf and hearing-impaired participants surveyed" },
+      { value: "32%", label: "could not understand ads that had no subtitles or sign language" },
+      { value: "~95%", label: "said delivery apps could serve them better" }
+    ],
+    question: "Do the ads of delivery apps such as HungerStation, Jahez and ToYou actually get their message and their emotional pull across to deaf and hearing-impaired customers, and are they suitable for them at all?",
+    method: "Deductive, quantitative study. I designed a bilingual Arabic/English survey with nine sections and recruited participants in person at care centers, through community groups and face to face. The responses were analyzed with descriptive frequency statistics. As far as I know, this is the first study of its kind in Saudi Arabia.",
+    findings: [
+      "The ads failed to reach deaf customers and customers with severe hearing loss, both in their message and in their emotion.",
+      "Customers with mild or moderate hearing loss could mostly follow the ads.",
+      "Video is the most accessible ad format, followed by images; audio-only ads are the worst choice for this audience.",
+      "The type and level of hearing loss mattered; gender, age and education did not."
+    ],
+    recommendations: [
+      "Add subtitles and sign-language translation to video ads. They help deaf and severely hearing-impaired viewers and don’t get in anyone else’s way.",
+      "Count deaf and hearing-impaired customers in campaign targeting. They are currently an untapped segment.",
+      "Make the apps themselves more accessible so these customers don’t need someone nearby to help. The paper leaves the specifics as an open question for future research."
+    ],
+    takeaway: "It’s the same question I ask as a QA engineer: who is this product failing, and what would it take to fix it?",
+    requestSubject: "Request: MBA research paper (deaf & hearing-impaired customers)"
+  },
+
   skills: [
     {
       group: "Leadership & Management",
@@ -161,7 +188,7 @@ window.CONTENT = {
   ],
 
   education: [
-    { school: "Saudi Electronic University", degree: "MBA, Digital Marketing", dates: "2022 – 2024" },
+    { school: "Saudi Electronic University", degree: "MBA, Digital Marketing", dates: "2022 – 2024", link: { label: "Read the research summary", href: "#research" } },
     { school: "King Fahd University of Petroleum & Minerals (KFUPM)", degree: "BSc, Computer Science", dates: "2013 – 2018" }
   ],
 

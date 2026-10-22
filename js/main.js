@@ -56,6 +56,39 @@
     });
   }
 
+  function renderResearch() {
+    var r = C.research;
+    var wrap = document.getElementById("research-card");
+    var email = "suliman.a.othman@gmail.com";
+    var mailto = "mailto:" + email + "?subject=" + encodeURIComponent(r.requestSubject) +
+      "&body=" + encodeURIComponent("Hi Suliman,\n\nI'd like to read your MBA research paper.\n\nName:\nOrganization:\nPurpose:\n");
+
+    function block(heading, body) {
+      return el("div", { class: "research-block" }, [el("h4", {}, heading), body]);
+    }
+    function list(items) {
+      return el("ul", {}, items.map(function (i) { return el("li", {}, i); }));
+    }
+
+    wrap.appendChild(el("p", { class: "research-eyebrow" }, r.eyebrow));
+    wrap.appendChild(el("h3", { class: "research-title" }, r.title));
+    wrap.appendChild(el("p", { class: "research-meta" }, r.supervisor + " · " + r.motivation));
+    wrap.appendChild(el("ul", { class: "research-stats" }, r.stats.map(function (s) {
+      return el("li", {}, [el("span", { class: "stat-value" }, s.value), el("span", { class: "stat-label" }, s.label)]);
+    })));
+    wrap.appendChild(el("div", { class: "research-grid" }, [
+      block("Question", el("p", {}, r.question)),
+      block("Method", el("p", {}, r.method)),
+      block("Findings", list(r.findings)),
+      block("Recommendations", list(r.recommendations))
+    ]));
+    wrap.appendChild(el("p", { class: "research-takeaway" }, r.takeaway));
+    wrap.appendChild(el("div", { class: "research-request" }, [
+      el("a", { class: "btn btn-solid", href: mailto }, "Request the full paper"),
+      el("p", { class: "muted" }, "The full 42-page paper is shared on request.")
+    ]));
+  }
+
   function renderSkills() {
     var wrap = document.getElementById("skill-list");
     C.skills.forEach(function (g) {
@@ -70,10 +103,12 @@
 
     var edu = document.getElementById("edu-list");
     C.education.forEach(function (e) {
-      edu.appendChild(el("li", {}, [
+      var item = el("li", {}, [
         el("strong", {}, e.degree),
         el("span", { class: "muted" }, e.school + " · " + e.dates)
-      ]));
+      ]);
+      if (e.link) item.appendChild(el("a", { class: "edu-link", href: e.link.href }, e.link.label + " →"));
+      edu.appendChild(item);
     });
 
     var langs = document.getElementById("lang-list");
@@ -141,6 +176,7 @@
 
   renderExperience();
   renderCases();
+  renderResearch();
   renderSkills();
   setupFilters();
   setupTheme();
