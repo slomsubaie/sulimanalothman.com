@@ -30,7 +30,7 @@ window.CONTENT = {
         "Manage an annual budget of SAR 480,000 and closed the fiscal year with a surplus of more than SAR 50,000.",
         "Negotiated with property-management and operations & maintenance companies, saving each of the 78 units SAR 1,000–1,500.",
         "Hold contractors accountable to their agreed duties, run owners’ meetings and votes, and make the final call on decisions for the complex.",
-        "Designed and built Jamaiaty (جمعيتي), an Arabic-first, multi-tenant platform for homeowners associations (web, iOS and Android), covering the document archive, vendor price comparison, budgets, role-based access and approval-gated support. (Not yet published due to important data fetch challenges)"
+        "Designed and built Jamaiaty (جمعيتي), an Arabic-first, multi-tenant platform for homeowners associations (web, iOS and Android), covering the document archive, vendor price comparison, budgets, role-based access and approval-gated support. (***Not yet published due to important data-fetch challenges***)"
       ],
       // Demo videos are Unlisted on YouTube; `id` is the part after youtu.be/ or watch?v=.
       demo: {

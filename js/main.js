@@ -14,6 +14,21 @@
     return node;
   }
 
+  function formatHighlight(text) {
+    var parts = [];
+    var emphasis = /\*\*\*(.+?)\*\*\*/g;
+    var previousEnd = 0;
+    var match;
+
+    while ((match = emphasis.exec(text))) {
+      if (match.index > previousEnd) parts.push(text.slice(previousEnd, match.index));
+      parts.push(el("strong", {}, el("em", {}, match[1])));
+      previousEnd = emphasis.lastIndex;
+    }
+    if (previousEnd < text.length) parts.push(text.slice(previousEnd));
+    return parts;
+  }
+
   function renderExperience() {
     var list = document.getElementById("experience-list");
     C.experience.forEach(function (job) {
@@ -29,7 +44,7 @@
           el("p", { class: "job-dates" }, job.dates + " · " + job.location)
         ]),
         tags,
-        el("ul", { class: "job-points" }, job.highlights.map(function (h) { return el("li", {}, h); }))
+        el("ul", { class: "job-points" }, job.highlights.map(function (h) { return el("li", {}, formatHighlight(h)); }))
       ]);
       if (job.demo) item.appendChild(demoButton(job.demo));
       list.appendChild(item);
