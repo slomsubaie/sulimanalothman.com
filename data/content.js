@@ -38,7 +38,7 @@ window.CONTENT = {
         nameAr: "جمعيتي",
         videos: {
           en: { id: "gnBrvXj6zN8", label: "English", duration: "3:47" },
-          ar: { id: "O5kD5y37qWI", label: "العربية", duration: "5:10" }
+          ar: { id: "ze6l8gkj338", label: "العربية", duration: "5:10" }
         }
       }
     },
